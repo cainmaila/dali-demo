@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用Dali Viewer SDK</title>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .bn {
+            width: 100px;
+            height: 30px;
+            line-height: 100%;
+        }
+
+        #dali {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #ui {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 這是我的Dali View -->
+    <div id="dali"></div>
+    <div id="ui">
+        <button class="bn" id="viewPosition">上視圖</button>
+        <button class="bn" id="zoom">縮放開關</button>
+        <input id="backgroundColor" type="range" min="0" max="1" step="0.01" value="1" />
+    </div>
+    <script src="/dali.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        /* Dali Core Viewer初始化 */
+        Dali.init({
+            viewId: 'dali',   //需要崁入Dali Viewer的容器ID
+            coreUrl: 'http://60.251.125.208:26110/',    //Dali Viewer的服務位置
+        })
+
+        /* 載入模型 */
+        Dali.fn.load('city_dev/上海WK广场大楼')
+
+        /* 改變視角 上視圖 按鈕 */
+        var $viewPositionBn = $('#viewPosition')
+        $viewPositionBn.on('click', function () {
+            Dali.fn.setViewPosition(4)
+        })
+
+        /* 縮放開關 按鈕 */
+        var zoomSwitch = false
+        var $zoomBn = $('#zoom')
+        $zoomBn.on('click', function () {
+            zoomSwitch = !zoomSwitch
+            Dali.fn.setZoomMode(zoomSwitch)
+        })
+
+        /* 亮度調整 */
+        var $backgroundColorBn = $('#backgroundColor')
+        $backgroundColorBn.on('input', function () {
+            Dali.fn.setBackgroundColor($backgroundColorBn.val())
+        })
+    </script>
+</body>
+
+</html>
